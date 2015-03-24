@@ -1,0 +1,22 @@
+{{extend 'layout.html'}}
+        <div class="input-append">
+    <input class="span2" id="appendedDropdownButton" type="text">
+    <div class="btn-group">
+    <button class="btn dropdown-toggle" data-toggle="dropdown">
+    Action
+    <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+        <li><a href="#">Names</a></li>
+    </ul>
+    </div>
+    </div>
+
+    <form>
+    <div class="input-prepend">
+    <div class="btn-group">
+        <li>a</li>
+    </div>
+    <input type="text">
+    </div>
+    </form>

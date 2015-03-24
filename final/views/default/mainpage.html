@@ -1,0 +1,51 @@
+{{ extend 'layout.html' }}
+{{ data1=data=db(db.profile1.stid==auth.user.id).select(db.profile1.id) }}
+{{ data2=data=db(db.profile2.stid==auth.user.id).select(db.profile2.id) }}
+{{ data3=data=db(db.profile4.stid==auth.user.id).select(db.profile4.id) }}
+{{ if ((len(data1) > 0) and (len(data2) >0 )and  (len(data3) > 0)) : }}
+{{=LI(A("seeprofile", _href=URL(r=request, f="seeingstudentprofile")))}}
+
+{{ elif (len(data1) > 0 and len(data2) >0 and len(data3) <=0  ): }}
+{{=LI(A("seeprofile", _href=URL(r=request, f="seeingstudentprofile")))}}<br />
+{{=LI(A("insert profile", _href=URL(r=request, f="buildingstudentprofile2")))}}
+
+{{ elif (len(data1) > 0 and len(data2) <=0 and len(data3) <=0  ): }}
+{{=LI(A("seeprofile", _href=URL(r=request, f="seeingstudentprofile")))}}<br />
+{{=LI(A("insert profile", _href=URL(r=request, f="buildingstudentprofile1")))}}
+
+{{ elif (len(data1) <=0 and len(data2) <=0 and len(data3) <=0 ) : }}
+{{=LI(A("insert profile", _href=URL(r=request, f="buildingstudentprofile")))}}
+{{pass}}
+<br />
+{{=LI(A("messages", _href=URL(r=request, f="showmessage")))}}
+<br />
+{{=LI(A("send message", _href=URL(r=request, f="messaging")))}}
+<br />
+{{=LI(A("update profile", _href=URL(r=request, f="updatingstudentprofile1")))}}
+
+{{ if data[0].choose=='company' :}}
+{{ data1=data=db(db.profile1.stid==auth.user.id).select(db.profile1.id) }}
+{{ data2=data=db(db.profile2.stid==auth.user.id).select(db.profile2.id) }}
+{{ data3=data=db(db.profile4.stid==auth.user.id).select(db.profile4.id) }}
+{{ if ((len(data1) > 0) and (len(data2) >0 )and  (len(data3) > 0)) : }}
+{{=LI(A("seeprofile", _href=URL(r=request, f="seeingstudentprofile")))}}
+
+{{ elif (len(data1) > 0 and len(data2) >0 and len(data3) <=0  ): }}
+{{=LI(A("seeprofile", _href=URL(r=request, f="seeingstudentprofile")))}}<br />
+{{=LI(A("insert profile", _href=URL(r=request, f="buildingstudentprofile2")))}}
+
+{{ elif (len(data1) > 0 and len(data2) <=0 and len(data3) <=0  ): }}
+{{=LI(A("seeprofile", _href=URL(r=request, f="seeingstudentprofile")))}}<br />
+{{=LI(A("insert profile", _href=URL(r=request, f="buildingstudentprofile1")))}}
+
+{{ elif (len(data1) <=0 and len(data2) <=0 and len(data3) <=0 ) : }}
+{{=LI(A("insert profile", _href=URL(r=request, f="buildingstudentprofile")))}}
+{{pass}}
+<br />
+{{=LI(A("messages", _href=URL(r=request, f="showmessage")))}}
+<br />
+{{=LI(A("send message", _href=URL(r=request, f="messaging")))}}
+<br />
+{{=LI(A("update profile", _href=URL(r=request, f="updatingstudentprofile1")))}}
+
+{{pass}}

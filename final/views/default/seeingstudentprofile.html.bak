@@ -1,0 +1,311 @@
+{{ extend 'layout.html' }}
+ {{dat=db(db.auth_user.id==auth.user.id).select(db.auth_user.choose)}}
+        <div class="navbar">
+    <div class="navbar-inner">
+        <a class="brand" href="#">{{=auth.user.username}}</a>
+    <ul class="nav">
+        {{if dat[0].choose=='jobfinders':}}
+        <li ><a href={{=URL(r=request, f="studentsmainpage", args=auth.user.id)}}>Mainpage</a></li>
+        {{pass}}
+        {{if dat[0].choose=='company' :}}
+        <li><a href={{=URL(r=request, f="companymainpage", args=auth.user.id)}}>Mainpage</a></li>
+        {{pass}}
+        <li><a href={{=URL(r=request, f="showmessage")}}>Messages</a></li>
+        <li><a href={{=URL(r=request, f="messaging")}}>Send Message</a></li>
+        {{if dat[0].choose=='jobfinders':}}
+        {{ if len(data1)>0 :}}
+        <li><a href={{=URL(r=request, f="updatingstudentprofile1")}}>Update Profile</a></li>
+        {{pass}}
+        {{pass}}
+        {{if dat[0].choose=='company':}}
+        <li><a href={{=URL(r=request, f="updatingcompanyprofile")}}>Update Profile</a></li>
+        <li><a href={{=URL(r=request, f="searching")}}>Advanced Search</a></li>
+        <li class="dropdown">
+             <a href="#" data-toggle="dropdown">Notice<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                          <li><a href={{=URL(r=request, f="notice")}}>New Notice</a></li>
+                          <li><a href={{=URL(r=request, f="dnotice",args=auth.user.username)}}>Delete a Notice</a></li>
+                        </ul>
+                      </li>
+        <!--<li><a href={{=URL(r=request, f="justforfun")}}>Advanced Search 2</a></li>-->
+        {{pass}}
+    </ul>
+    </div>
+    </div>
+ <h1 style='text-align:center'>
+	 GENERAL INFO
+ </h1>
+ <center>
+{{for j in data1:}}
+	 {{ if j.profilepic :  }}
+	 <img width="500px" src="{{=URL(r=request, f='download', args=j.profilepic)}}" />
+	 {{pass}}
+ </center>
+{{pass}}
+{{print data1[0].first_name}}
+ <table width='100%' class="table table-hover">
+	 {{ for i in data1 : }}
+	 <tr>
+		 <td>
+			<h2>
+			First Name : 
+			</h2>
+		</td>
+		<td>
+			<h3>
+			{{=i.first_name}}
+			</h3>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<h2>
+			Last Name : 
+			</h2>
+		</td>
+		<td>
+			
+			<h3>
+				{{=i.last_name}}
+			</h3>
+		</td>
+	</tr>
+	<tr>
+		<td>
+
+			<h2>
+				Father Name : 
+			</h2>
+		</td>
+		<td>
+			
+			<h3>
+				{{=i.father_name}}
+			</h3>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<h2>
+				Address : 
+			</h2>
+		</td>
+		<td>
+			
+			<pre><h4>{{=i.chirunama}}</h4></pre>
+		</td>
+
+	</tr>
+	<tr>
+		<td>
+
+
+			<h2>
+			Phone No : 
+			</h2>
+		</td>
+		<td>
+			<h3>
+			{{=i.phoneno}}
+			</h3>
+		</td>
+	</tr>
+	{{pass}}
+</table>
+<br />
+<center>
+<h1>
+	High School Performence
+</h1>
+</center>
+<table class="table table-hover" width='100%'>
+	{{ for j in data2 : }}
+	<tr >
+		<td >
+			<h2>
+				School Name
+			</h2>
+		</td>
+		<td>
+			<h3>
+				{{=j.schoolname}}
+			</h3>
+		</td>
+
+	</tr>
+	<tr>
+		<td>
+			<h2>
+				Pass Out Year
+			</h2>
+		</td>
+		<td>
+			<h3>
+				{{=j.passoutyear}}
+			</h3>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<h2>
+				Precentage
+			</h2>
+		</td>
+		<td>
+			<h3>
+				{{=j.percentage}}
+			</h3>
+		</td>
+	</tr>
+{{pass}}
+</table>
+<center>
+	<h1>
+		COLLEGE INFORMATION
+	</h1>
+</center>
+{{ dataa=db(db.profile3.stid==auth.user.id).select() }}
+{{ for i in data4 : }}
+<table class="table table-hover" width='100%' >
+	<tr>
+		<td>
+			<h2>
+				Collegename
+			</h2>
+		</td>
+		<td>
+			<pre><h5>{{=i.collegename}}</h5></pre>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<h2>
+				Course
+			</h2>
+		</td>
+		<td>
+			<pre><h5>{{=i.course}}</h5></pre>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<h2>
+				Cgpa
+			</h2>
+		</td>
+		<td>
+			<h3>
+				{{=i.cgpa}}
+			</h3>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<h2>
+				passoutyear
+			</h2>
+		</td>
+		<td>
+			<h3>
+				{{=i.passoutyear}}
+			</h3>
+		</td>
+	</tr>
+</table>
+<br />
+{{pass}}
+
+
+
+
+
+
+
+<center>
+	<h1>
+		WORK INFORMATION
+	</h1>
+</center>
+{{ dataa1=db(db.profile5.stid==auth.user.id).select() }}
+{{ for i in data5 : }}
+<table class="table table-hover" width='100%' >
+	<tr>
+		<td>
+			<h2>
+				NAME OF THE ORGANISATION
+			</h2>
+		</td>
+		<td>
+			<pre><h5>{{=i.workedin}}</h5></pre>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<h2>
+				POST
+			</h2>
+		</td>
+		<td>
+			<pre><h5>{{=i.post}}</h5></pre>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<h2>
+				WORKED FOR
+			</h2>
+		</td>
+		<td>
+			<h3>
+				{{=i.pani}}
+			</h3>
+		</td>
+	</tr>
+	
+</table>
+<br />
+{{pass}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<center>
+	<h1>
+		OTHER INFORMATION
+	</h1>
+</center>
+<table class="table table-hover" width='100%'>
+	{{for i in data3 : }}
+	<tr>
+		<td>
+			<h2>
+				Intrested Fields
+			</h2>
+		</td>
+		<td>
+			<pre><h5>{{=i.istam}}</h5></pre>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<h2>
+				Projects
+			</h2>
+		</td>
+		<td>
+			<pre><h5>{{=i.projects}}</h5></pre>
+		</td>
+	</tr>
+{{pass}}
+</table>

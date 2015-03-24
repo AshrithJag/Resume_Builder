@@ -1,0 +1,42 @@
+{{extend 'layout.html'}}
+{{ dat1=db(db.companyprofile.stid==auth.user.id).select(db.companyprofile.id) }}
+{{ data1=db(db.profile1.stid==auth.user.id).select(db.profile1.id) }}
+{{ data2=db(db.profile2.stid==auth.user.id).select(db.profile2.id) }}
+{{ data3=db(db.profile4.stid==auth.user.id).select(db.profile4.id) }}
+{{ data4=db(db.profile3.stid==auth.user.id).select(db.profile4.id) }}
+{{ data5=db(db.profile5.stid==auth.user.id).select(db.profile4.id) }}
+{{dat=db(db.auth_user.id==auth.user.id).select(db.auth_user.choose)}}
+        <div class="navbar">
+    <div class="navbar-inner">
+        <a class="brand" href="#">{{=auth.user.username}}</a>
+    <ul class="nav">
+        {{if dat[0].choose=='jobfinders':}}
+        <li><a href={{=URL(r=request, f="studentsmainpage", args=auth.user.id)}}>Mainpage</a></li>
+        {{pass}}
+        {{if dat[0].choose=='company' :}}
+        <li><a href={{=URL(r=request, f="companymainpage", args=auth.user.id)}}>Mainpage</a></li>
+        {{pass}}
+        <li><a href={{=URL(r=request, f="showmessage")}}>Messages</a></li>
+        <li><a href={{=URL(r=request, f="messaging")}}>Send Message</a></li>
+        {{if dat[0].choose=='jobfinders':}}
+        {{ if len(data1)>0 :}}
+        <li><a href={{=URL(r=request, f="updatingstudentprofile1")}}>Update Profile</a></li>
+        {{pass}}
+        {{pass}}
+        {{if dat[0].choose=='company':}}
+        <li><a href={{=URL(r=request, f="updatingcompanyprofile")}}>Update Profile</a></li>
+        <li class="active"><a href={{=URL(r=request, f="searching")}}>Advanced Search</a></li>
+        <li class="dropdown">
+             <a href="#" data-toggle="dropdown">Notice<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                          <li><a href={{=URL(r=request, f="notice")}}>New Notice</a></li>
+                          <li><a href={{=URL(r=request, f="dnotice",args=auth.user.username)}}>Delete a Notice</a></li>
+                        </ul>
+                      </li>
+        <!--<li><a href={{=URL(r=request, f="justforfun")}}>Advanced Search 2</a></li>-->
+        {{pass}}
+    </ul>
+    </div>
+    </div>
+    <h2 style="text-align:center">Advanced Search</h2>
+{{=form}}

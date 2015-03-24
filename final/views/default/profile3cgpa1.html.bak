@@ -1,0 +1,42 @@
+{{ extend 'layout.html' }}
+{{dat=db(db.auth_user.id==auth.user.id).select(db.auth_user.choose)}}
+
+        <div class="navbar">
+    <div class="navbar-inner">
+        <a class="brand" href="#">{{=auth.user.username}}</a>
+    <ul class="nav">
+        {{if dat[0].choose=='jobfinders':}}
+        <li><a href={{=URL(r=request, f="studentsmainpage", args=auth.user.id)}}>Mainpage</a></li>
+        {{pass}}
+        {{if dat[0].choose=='company' :}}
+        <li><a href={{=URL(r=request, f="companymainpage", args=auth.user.id)}}>Mainpage</a></li>
+        {{pass}}
+        <li><a href={{=URL(r=request, f="showmessage")}}>Messages</a></li>
+        <li><a href={{=URL(r=request, f="messaging")}}>Send Message</a></li>
+        {{if dat[0].choose=='jobfinders':}}
+        {{ if len(data1)>0 :}}
+        <li><a href={{=URL(r=request, f="updatingstudentprofile1")}}>Update Profile</a></li>
+        {{pass}}
+        {{pass}}
+        {{if dat[0].choose=='company':}}
+        <li><a href={{=URL(r=request, f="updatingcompanyprofile")}}>Update Profile</a></li>
+        <li class="active"><a href={{=URL(r=request, f="searching")}}>Advanced Search</a></li>
+        {{pass}}
+    </ul>
+    </div>
+    </div>
+{{ if len(data1)!=0:}}
+<h1>
+	Search Results
+</h1>
+{{pass}}
+{{ name='cgpa' }}
+{{ for i in data1:}}
+{{ k=i.stid}}
+{{ d=db( db.profile1.stid == k).select() }}
+{{a = d[0].first_name + ' ' + d[0].last_name}}
+{{ d=db( db.auth_user.id == k).select() }}
+{{=LI(A(a, _href=URL(r=request, f="companyprofileview", args=(i.stid,name,d3['main']))))}}
+<br />
+{{pass}}
+{{=LI(A('back', _href=URL(r=request, f="searching"), _class="btn btn-success"))}}

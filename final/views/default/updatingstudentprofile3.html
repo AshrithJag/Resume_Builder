@@ -1,0 +1,29 @@
+{{ extend 'layout.html' }}
+{{ data1=data=db(db.profile1.stid==auth.user.id).select(db.profile1.id) }}
+{{ data2=data=db(db.profile2.stid==auth.user.id).select(db.profile2.id) }}
+{{ data3=data=db(db.profile4.stid==auth.user.id).select(db.profile4.id) }}
+{{ data4=data=db(db.profile3.stid==auth.user.id).select(db.profile4.id) }}
+{{ data5=data=db(db.profile5.stid==auth.user.id).select(db.profile4.id) }}
+
+        <div class="navbar">
+    <div class="navbar-inner">
+        <a class="brand" href="#">{{=auth.user.username}}</a>
+    <ul class="nav">
+        <li><a href='studentsmainpage'>Mainpage</a></li>
+        <li><a href={{=URL(r=request, f="showmessage")}}>Messages</a></li>
+        <li><a href={{=URL(r=request, f="messaging")}}>Send Message</a></li>
+        {{ if len(data1)>0 :}}
+        <li class="active"><a href={{=URL(r=request, f="updatingstudentprofile1")}}>Update Profile</a></li>
+        {{pass}}
+
+    </ul>
+    </div>
+    </div>
+<center>
+	<h1>
+		Update Your Details
+	</h1>
+</center>
+<br />
+<br />
+{{=form}}

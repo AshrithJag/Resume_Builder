@@ -1,0 +1,25 @@
+{{ extend 'layout.html' }}
+ <div class="navbar">
+    <div class="navbar-inner">
+        <a class="brand" href="#">{{=auth.user.username}}</a>
+    <ul class="nav">
+        <li><a href='studentsmainpage'>Mainpage</a></li>
+        <li><a href={{=URL(r=request, f="showmessage")}}>Messages</a></li>
+        <li><a href={{=URL(r=request, f="messaging")}}>Send Message</a></li>
+        {{ if len(data1)>0 :}}
+        <li class="active"><a href={{=URL(r=request, f="updatingstudentprofile1")}}>Update Profile</a></li>
+        {{pass}}
+
+    </ul>
+    </div>
+    </div>
+{{ for i in data1 :}}
+{{=LI(A(i.workedin, _href=URL(r=request, f="updatingstudentprofile555", args=i.id)))}}
+<br />
+{{pass}}
+{{=LI(A('next', _href=URL(r=request, f="updatingstudentprofile3")))}}
+
+ <ul class="pager">
+        <li><a href="checkpage">Previous</a></li>
+    <li><a href="updatingstudentprofile3">Next</a></li>
+    </ul>

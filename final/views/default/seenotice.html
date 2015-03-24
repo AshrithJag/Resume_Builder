@@ -1,0 +1,25 @@
+{{ extend 'layout.html' }}
+<table border=5 width="50%">
+	<tr>
+		<th style="text-align:center">
+			by
+		</th>
+		<th style="text-align:center">
+			title
+		</th>
+	</tr>
+	{{for i in data : }}
+	<tr>
+		<td style="text-align:center">
+			{{=i.bye }}
+		</td>
+		<td style="text-align:center">
+			{{ =LI(A(i.title, _href=URL(r=request, f="seeingnicenotice", args=i.id)))  }}
+		</td>
+	</tr>
+	{{pass}}
+</table>
+		
+
+	
+

@@ -1,0 +1,136 @@
+{{extend 'layout.html'}}
+    <body>
+       {{ dat1=db(db.companyprofile.stid==auth.user.id).select(db.companyprofile.id) }}
+{{ data1=db(db.profile1.stid==auth.user.id).select(db.profile1.id) }}
+{{ data2=db(db.profile2.stid==auth.user.id).select(db.profile2.id) }}
+{{ data3=db(db.profile4.stid==auth.user.id).select(db.profile4.id) }}
+{{ data4=db(db.profile3.stid==auth.user.id).select(db.profile4.id) }}
+{{ data5=db(db.profile5.stid==auth.user.id).select(db.profile4.id) }}
+{{dat=db(db.auth_user.id==auth.user.id).select(db.auth_user.choose)}}
+        <div class="navbar">
+    <div class="navbar-inner">
+        <a class="brand" href="#">{{=auth.user.username}}</a>
+    <ul class="nav">
+        {{if dat[0].choose=='jobfinders':}}
+        <li class="active"><a href={{=URL(r=request, f="studentsmainpage", args=auth.user.id)}}>Mainpage</a></li>
+        {{pass}}
+        {{if dat[0].choose=='company' :}}
+        <li class="active"><a href={{=URL(r=request, f="companymainpage", args=auth.user.id)}}>Mainpage</a></li>
+        {{pass}}
+        <li><a href={{=URL(r=request, f="showmessage")}}>Messages</a></li>
+        <li><a href={{=URL(r=request, f="messaging")}}>Send Message</a></li>
+        {{if dat[0].choose=='jobfinders':}}
+        {{ if len(data1)>0 :}}
+        <li><a href={{=URL(r=request, f="updatingstudentprofile1")}}>Update Profile</a></li>
+        {{pass}}
+        {{pass}}
+        {{if dat[0].choose=='company':}}
+        <li><a href={{=URL(r=request, f="updatingcompanyprofile")}}>Update Profile</a></li>
+        <li><a href={{=URL(r=request, f="searching")}}>Advanced Search</a></li>
+        <li class="dropdown">
+             <a href="#" data-toggle="dropdown">Notice<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                          <li><a href={{=URL(r=request, f="notice")}}>New Notice</a></li>
+                          <li><a href={{=URL(r=request, f="dnotice",args=auth.user.username)}}>Delete a Notice</a></li>
+                        </ul>
+                      </li>
+        <!--<li><a href={{=URL(r=request, f="justforfun")}}>Advanced Search 2</a></li>-->
+        {{pass}}
+    </ul>
+    </div>
+    </div>
+        <div style="float:left;width:33%">
+{{ if ((len(data1) > 0) and (len(data2) >0 )and  (len(data3) > 0)) and (len(data4) > 0) and (len(data5)>0): }}
+            <a href={{=URL(r=request, f="seeingstudentprofile", args=auth.user.id)}} class="btn btn-primary">See profile</a>
+{{ elif (len(data1) > 0 and len(data2) >0 and(len(data4) > 0) and (len(data5)>0) and len(data3) <=0  ): }}
+<a href={{=URL(r=request, f="seeingstudentprofile", args=auth.user.id)}} class="btn btn-primary">See profile</a>
+<br />
+<a href={{=URL(r=request, f="buildingstudentprofile2")}} class="btn btn-primary">Insert profile</a>
+{{ elif (len(data1) > 0 and len(data2) >0 and (len(data4) > 0) and (len(data5)<=0) and len(data3) <=0  ): }}
+<a href={{=URL(r=request, f="seeingstudentprofile", args=auth.user.id)}} class="btn btn-primary">See profile</a><br />
+<a href={{=URL(r=request, f="buildingstudentprofile555")}} class="btn btn-primary">Insert profile</a>
+{{ elif (len(data1) > 0 and len(data2) >0 and (len(data4) <=0) and (len(data5)<=0) and len(data3) <=0  ): }}
+<a href={{=URL(r=request, f="seeingstudentprofile", args=auth.user.id)}} class="btn btn-primary">See profile</a><br  />
+<a href={{=URL(r=request, f="buidlingstudentprofilemain")}} class="btn btn-primary">Insert profile</a>
+{{ elif (len(data1) > 0 and len(data2) <=0 and (len(data4) <= 0) and (len(data5) <= 0) and len(data3) <=0  ): }}
+<a href={{=URL(r=request, f="seeingstudentprofile", args=auth.user.id)}} class="btn btn-primary">See profile</a><br />
+<a href={{=URL(r=request, f="buildingstudentprofile1")}} class="btn btn-primary">Insert profile</a>
+{{ elif (len(data1) <=0 and len(data2) <=0 and len(data3) <=0 ) : }}
+<a href={{=URL(r=request, f="buildingstudentprofile")}} class="btn btn-primary">Insert profile</a>
+{{pass}}
+        </div>
+        <div style="float:left;width:33%">
+<!--{{=LI(A("messages", _href=URL(r=request, f="showmessage")))}}
+<a href="showmessage" class="btn btn-primary">Messages</a>
+<br />
+{{=LI(A("send message", _href=URL(r=request, f="messaging")))}}
+<a href="messaging" class="btn btn-primary">Send a Message</a>
+<br />
+{{ if len(data1)>0 :}}
+{{=LI(A("update profile", _href=URL(r=request, f="updatingstudentprofile1")))}}
+<a href="updatingstudentprofile1" class="btn btn-primary">Update Profile</a>
+{{pass}}-->
+<a href={{=URL(r=request, f="buildingstudentprofilemaincopyforinsert")}} class="btn btn-primary">Insert a new study profile</a>
+<!--<a href="buildingstudentprofilemaincopyforinsert" class="btn btn-primary">Insert a new study profile</a>
+-->     <br /><br />
+<!-- <a href="buildingstudentprofile555copyforinsert" class="btn btn-primary">Insert a new work profile</a>
+-->
+<a href={{=URL(r=request, f="buildingstudentprofile555copyforinsert")}} class="btn btn-primary">Insert a new work profile</a>
+<br />
+            {{x="generate/"+auth.user.username+'.pdf'}}<br /><br />
+            {{if len(data1) and len(data2) and len(data3) and len(data4) and len(data5):}}
+            <a href={{=URL(r=request,f=x)}} class="btn btn-warning">Getpdf1</a>&nbsp;
+            <a href={{=URL(r=request, f="listing.pdf")}} class="btn btn-info">Getpdf2</a>
+            {{pass}}
+                    </div>
+            <div style="float:left;width:33%">
+                {{data=db(db.notifye.id>0).select()}}
+            <table border=0 width="50%" class="table table-hover">
+                <thead><tr><td style="text-align:right"><b>NOTICES</b></td></tr></thead>
+	<tr>
+		<th style="text-align:center">
+			by
+		</th>
+		<th style="text-align:center">
+			title
+		</th>
+	</tr>
+                {{diting=db(db.notifye.id>0).select()}}
+	{{for i in diting : }}
+                {{x1=db((db.notifye.bye==i.bye) &(db.notifye.id==i.id)).select(db.notifye.id)}}
+                {{x=i.id}}                
+	<tr>
+		<td style="text-align:center">
+			{{=i.bye }}		
+		</td>
+		<td style="text-align:center">
+            <a href={{=URL(r=request, f="seeingnicenotice", args=x1[0].id)}} class="btn btn-success">{{=i.title}}</a>
+            <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h3 id="myModalLabel">Notice</h3>
+            </div>
+            <div class="modal-body">
+                {{=LOAD('default','seeingnicenotice/'+str(x),ajax=True,args=x)}}
+                   
+            </div>
+            <div class="modal-footer">
+              <button class="btn" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+          <div class="bs-docs-example" style="padding-bottom: 24px;">
+             <!-- <a data-toggle="modal" href='#myModal' class="btn btn-success" title="mod">{{=i.title}}</a>-->
+          </div>
+			<!--{{ =LI(A(i.title, _href=URL(r=request, f="seeingnicenotice", args=i.id), _class="btn btn-info"))  }}-->
+		</td>
+	</tr>
+	{{pass}}
+</table>
+            </div>
+           <!-- <a href="#" data-toggle="tooltip" title="first tooltip" id="2">hover over me</a>
+            <script>
+jQuery(document).ready(function(){
+   <!--jQuery('#2').tooltip('show');
+});
+</script>-->
+</body>

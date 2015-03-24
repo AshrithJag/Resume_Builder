@@ -1,0 +1,175 @@
+timestamp: 2013-03-18T12:40:47.799870
+CREATE TABLE auth_user(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    first_name CHAR(128),
+    last_name CHAR(128),
+    email CHAR(512),
+    password CHAR(512),
+    registration_key CHAR(512),
+    reset_password_key CHAR(512),
+    registration_id CHAR(512)
+);
+success!
+timestamp: 2013-03-18T12:40:48.016600
+CREATE TABLE auth_group(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    role CHAR(512),
+    description TEXT
+);
+success!
+timestamp: 2013-03-18T12:40:48.205422
+CREATE TABLE auth_membership(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
+    group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE
+);
+success!
+timestamp: 2013-03-18T12:40:48.394488
+CREATE TABLE auth_permission(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE,
+    name CHAR(512),
+    table_name CHAR(512),
+    record_id INTEGER
+);
+success!
+timestamp: 2013-03-18T12:40:48.583453
+CREATE TABLE auth_event(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    time_stamp TIMESTAMP,
+    client_ip CHAR(512),
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
+    origin CHAR(512),
+    description TEXT
+);
+success!
+timestamp: 2013-03-18T12:40:48.783868
+CREATE TABLE auth_cas(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
+    created_on TIMESTAMP,
+    service CHAR(512),
+    ticket CHAR(512),
+    renew CHAR(1)
+);
+success!
+timestamp: 2013-03-18T12:47:14.776000
+ALTER TABLE auth_user ADD city CHAR(512);
+timestamp: 2013-03-18T12:47:14.997082
+ALTER TABLE auth_user ADD zip CHAR(512);
+timestamp: 2013-03-18T12:47:15.185265
+ALTER TABLE auth_user ADD phone CHAR(512);
+timestamp: 2013-03-18T12:47:15.419893
+ALTER TABLE auth_user ADD address CHAR(512);
+timestamp: 2013-03-18T12:52:49.327375
+ALTER TABLE auth_user ADD edq CHAR(512);
+timestamp: 2013-03-18T12:52:49.584024
+ALTER TABLE auth_user ADD phoneno CHAR(512);
+timestamp: 2013-03-18T12:56:21.832169
+ALTER TABLE auth_user ADD eduins CHAR(512);
+timestamp: 2013-03-18T12:56:22.086407
+ALTER TABLE auth_user ADD skills TEXT;
+timestamp: 2013-03-18T12:56:22.288641
+ALTER TABLE auth_user ADD otherworks TEXT;
+timestamp: 2013-03-20T11:39:22.179314
+ALTER TABLE auth_user ADD username CHAR(128);
+timestamp: 2013-03-20T12:34:25.756985
+CREATE TABLE messages(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    frome CHAR(512),
+    toe CHAR(512),
+    subject CHAR(512),
+    sollu TEXT,
+    files CHAR(512)
+);
+success!
+timestamp: 2013-03-20T21:58:18.454604
+CREATE TABLE notice(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    companyname CHAR(512),
+    sollura TEXT
+);
+success!
+timestamp: 2013-03-28T13:08:19.012602
+ALTER TABLE auth_user ADD choose CHAR(512);
+timestamp: 2013-03-28T13:08:19.338958
+CREATE TABLE profile1(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    stid CHAR(512),
+    first_name CHAR(512),
+    last_name CHAR(512),
+    father_name CHAR(512),
+    chirunama TEXT,
+    phoneno CHAR(512),
+    profilepic CHAR(512)
+);
+success!
+timestamp: 2013-03-28T13:08:19.646854
+CREATE TABLE profile2(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    stid CHAR(512),
+    schoolname CHAR(512),
+    address TEXT,
+    passoutyear INTEGER,
+    percentage DOUBLE
+);
+success!
+timestamp: 2013-03-28T13:08:19.946819
+CREATE TABLE profile3(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    stid CHAR(512),
+    collegename CHAR(512),
+    course CHAR(512),
+    address TEXT,
+    passoutyear INTEGER,
+    cgpa DOUBLE
+);
+success!
+timestamp: 2013-03-28T13:08:20.279785
+CREATE TABLE profile4(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    stid CHAR(512),
+    istam TEXT,
+    projects TEXT,
+    pani DOUBLE
+);
+success!
+timestamp: 2013-03-28T13:08:20.613028
+CREATE TABLE profile5(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    stid CHAR(512),
+    workedin CHAR(512),
+    post CHAR(512),
+    pani DOUBLE
+);
+success!
+timestamp: 2013-03-28T13:08:20.946186
+CREATE TABLE companyprofile(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    stid CHAR(512),
+    name CHAR(512),
+    country CHAR(512),
+    states CHAR(512),
+    chairperson CHAR(512)
+);
+success!
+timestamp: 2013-03-28T13:08:21.268320
+CREATE TABLE messaging(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    frome CHAR(512),
+    toe CHAR(512),
+    subject CHAR(512),
+    matter TEXT,
+    filematter CHAR(512)
+);
+success!
+timestamp: 2013-03-28T13:08:21.556924
+CREATE TABLE notifye(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    bye CHAR(512),
+    title CHAR(512),
+    matter TEXT
+);
+success!
+timestamp: 2013-03-28T21:30:17.305928
+ALTER TABLE companyprofile ADD workers INTEGER;

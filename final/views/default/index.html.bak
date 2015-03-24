@@ -1,0 +1,33 @@
+<!--{{left_sidebar_enabled,right_sidebar_enabled=False,('message' in globals())}}-->
+{{extend 'layout.html'}}
+<h2 style="align:center"><marquee>Welcome to our application</marquee></h2>
+<br />
+<h5 style="text-align:justify;">If You are a looking for a job,post your resume here and let your dream companies know about you.<br />But,if you are a company and looking to hire some professionals, you can do that too by looking at<br/> the resumes of many people in an easy and hassle-free way by looking for different attributes based<br /> on your requirements with the help of our <span style="color:blue">Advanced Search Toolbar</span>.<br />So,What are you waiting for?<h3 style="color:green">Register yourself and get right to business.</h3></h5> 
+<!--{{if 'message' in globals():}}
+<h3>{{=message}}</h3>-->
+
+<!--<h4>{{=T('How did you get here?')}}</h4>
+<ol>
+  <li>{{=T('You are successfully running web2py')}}</li>
+  <li>{{=XML(T('You visited the url %s', A(request.env.path_info,_href=request.env.path_info)))}}</li>
+  <li>{{=XML(T('Which called the function %s located in the file %s',
+             (A(request.function+'()',_href='#'),
+              A('web2py/applications/%(application)s/controllers/%(controller)s.py'%request,
+               _href=URL('admin','default','peek', args=(request.application,'controllers',request.controller+'.py'))))))}}</li>
+  <li>{{=XML(T('The output of the file is a dictionary that was rendered by the view %s',
+           A('web2py/applications/%(application)s/views/%(controller)s/index.html'%request,
+           _href=URL('admin','default','peek',args=(request.application,'views',request.controller,'index.html')))))}}</li>
+  <li>{{=T('You can modify this application and adapt it to your needs')}}</li>
+</ol>--> 
+<!--{{elif 'content' in globals():}}
+{{=content}}
+{{else:}}
+{{=BEAUTIFY(response._vars)}}
+{{pass}}-->
+{{block right_sidebar}}
+{{end}}
+<!--<ul>
+  	<li><a href="http://127.0.0.1:8000/final/default/user/register?_next=/final/default/index">Register</a></li>
+  	<li><a href="http://127.0.0.1:8000/final/default/user/login?_next=/final/default/index">{{=T('Login')}}</a></li>
+  	<li><a href="http://127.0.0.1:8000/final/default/user/request_reset_password">Lost Password?</a></li>
+</ul>-->

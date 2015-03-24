@@ -1,0 +1,62 @@
+{{ extend 'layout.html' }}
+{{dat=db(db.auth_user.id==auth.user.id).select(db.auth_user.choose)}}
+
+        <div class="navbar">
+    <div class="navbar-inner">
+        <a class="brand" href="#">{{=auth.user.username}}</a>
+    <ul class="nav">
+        {{if dat[0].choose=='jobfinders':}}
+        <li><a href={{=URL(r=request, f="studentsmainpage", args=auth.user.id)}}>Mainpage</a></li>
+        {{pass}}
+        {{if dat[0].choose=='company' :}}
+        <li><a href={{=URL(r=request, f="companymainpage", args=auth.user.id)}}>Mainpage</a></li>
+        {{pass}}
+        <li><a href={{=URL(r=request, f="showmessage")}}>Messages</a></li>
+        <li><a href={{=URL(r=request, f="messaging")}}>Send Message</a></li>
+        {{if dat[0].choose=='jobfinders':}}
+        {{ if len(data1)>0 :}}
+        <li><a href={{=URL(r=request, f="updatingstudentprofile1")}}>Update Profile</a></li>
+        {{pass}}
+        {{pass}}
+        {{if dat[0].choose=='company':}}
+        <li><a href={{=URL(r=request, f="updatingcompanyprofile")}}>Update Profile</a></li>
+        <li class="active"><a href={{=URL(r=request, f="searching")}}>Advanced Search</a></li>
+        {{pass}}
+    </ul>
+    </div>
+    </div>
+{{ for i in data : }}
+{{=LI(A('See_Profile', _href=URL(r=request, f="seeingstudentprofile", args=i.stid)))}}
+<br />
+{{ k=i.stid}}
+{{ d=db( db.auth_user.id == i.stid).select() }}
+{{=LI(A('send message', _href=URL(r=request, f="reply1", args=(d[0].username,d[0].id,dq['return'],dq['main']))))}}
+{{pass}}
+{{ if dq['return']=='names' : }}
+<br />
+{{=LI(A('back', _href=URL(r=request, f="profile1checkname1", args=dq['main']), _class="btn btn-success"))}}
+{{pass}}
+{{ if dq['return']=='college' : }}
+<br />
+{{=LI(A('back', _href=URL(r=request, f="profile3college1", args=dq['main']),_class="btn btn-success"))}}
+{{pass}}
+{{ if dq['return']=='pani' : }}
+<br />
+{{=LI(A('back', _href=URL(r=request, f="profile5pani1", args=dq['main']),_class="btn btn-success"))}}
+{{pass}}
+{{ if dq['return']=='cgpa' : }}
+<br />
+{{=LI(A('back', _href=URL(r=request, f="profile3cgpa1", args=dq['main']),_class="btn btn-success"))}}
+{{pass}}
+{{ if dq['return']=='companyworkedin' : }}
+<br />
+{{=LI(A('back', _href=URL(r=request, f="companyworkedin1", args=dq['main']),_class="btn btn-success"))}}
+{{pass}}
+{{ if dq['return']=='highschool' : }}
+<br />
+{{=LI(A('back', _href=URL(r=request, f="highschool2", args=dq['main']),_class="btn btn-success"))}}
+{{pass}}
+{{ if dq['return']=='project' : }}
+<br />
+{{=LI(A('back', _href=URL(r=request, f="project1", args=dq['main']),_class="btn btn-success"))}}
+{{pass}}

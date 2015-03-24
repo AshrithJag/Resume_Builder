@@ -1,0 +1,237 @@
+# -*- coding: utf-8 -*-
+# this file is released under public domain and you can use without limitations
+
+#########################################################################
+## This is a samples controller
+## - index is the default action of any application
+## - user is required for authentication and authorization
+## - download is for downloading files uploaded in the db (does streaming)
+## - call exposes all registered services (none by default)
+#########################################################################
+
+from reportlab.platypus import *
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.rl_config import defaultPageSize
+from reportlab.lib.units import inch, mm
+from reportlab.lib.enums import TA_LEFT, TA_RIGHT, TA_CENTER, TA_JUSTIFY
+from reportlab.lib import colors
+from uuid import uuid4
+from cgi import escape
+import os
+def lange():
+	return dict(form=auth())
+def report():
+    response.title = "web2py sample report"
+    
+    # include a google chart (download it dynamically!)
+    #url = "http://chart.apis.google.com/chart?cht=p3&chd=t:60,40&chs=500x200&chl=Hello|World&.png"
+    #chart = IMG(_src=url, _width="250",_height="100")
+
+    # create a small table with some data:
+    rows = [THEAD(TR(TH("Key",_width="70%",_align='left'), TH("Value",_width="30%",_align='left'))),
+            TBODY(TR(TD("Hello"),TD("60")), 
+                  TR(TD("World"),TD("40")))]
+    table = TABLE(*rows, _border="5", _align="center", _width="50%")
+
+    if request.extension=="pdf":
+        from gluon.contrib.pyfpdf import FPDF, HTMLMixin
+
+        # create a custom class with the required functionalities 
+        class MyFPDF(FPDF, HTMLMixin):
+            def header(self): 
+                "hook to draw custom page header (logo and title)"
+               # logo=os.path.join(request.env.web2py_path,"gluon","contrib","pyfpdf","tutorial","logo_pb.png")
+                #self.image(logo,10,8,33)
+                self.set_font('Arial','B',15)
+                self.cell(65) # padding
+                self.cell(60,10,response.title,1,0,'C')
+                self.ln(20)
+                
+            def footer(self):
+                "hook to draw custom page footer (printing page numbers)"
+                self.set_y(-15)
+                self.set_font('Arial','I',8)
+                txt = 'Page %s of %s' % (self.page_no(), self.alias_nb_pages())
+                self.cell(0,10,txt,0,0,'C')
+                    
+        pdf=MyFPDF()
+        # create a page and serialize/render HTML objects
+        pdf.add_page()
+        pdf.write_html(str(XML(table, sanitize=False)))
+        #pdf.write_html(str(XML(CENTER(chart), sanitize=False)))
+        # prepare PDF to download:
+        response.headers['Content-Type']='application/pdf'
+        return pdf.output(dest='S')
+    else:
+        # normal html view:
+        return dict(table=table)
+
+
+def get_me_a_pdf():
+	
+	title = "This is the Doc Title"
+	heading = "PROFILE"
+	text= 'NAME'
+	text1 ='%(first_name)s ' % auth.user
+	#text=text+' ' + text1
+	text2='EMAIL'
+	text3 ='%(email)s ' % auth.user
+	text4='ADDRESS'
+	text5='%(address)s ' % auth.user
+	text6='CITY'
+	text7='%(city)s \n' % auth.user
+	text8='Education Institution(s):'
+	text9='%(edq)s ' % auth.user
+	texta='SKILLS'
+	textb='%(skills)s ' % auth.user
+	textc='OTHER WORKS'
+	textd='%(otherworks)s ' % auth.user
+	texte='EDU QUALIFICATIONS'
+	textf='%(edq)s \n' % auth.user
+	textg='CONTACT NO'
+	texth='%(phoneno)s ' % auth.user
+	styles = getSampleStyleSheet()
+	tmpfilename=os.path.join(request.folder,'private',str(uuid4()))
+	doc = SimpleDocTemplate(tmpfilename)
+	story = []
+	story.append(Paragraph(escape(title),styles["Title"]))
+	story.append(Paragraph(escape(heading),styles["Heading1"]))
+	story.append(Paragraph(escape(text),styles["Heading2"]))
+	story.append(Paragraph(escape(text2),styles["Heading2"]))
+	story.append(Paragraph(escape(text3),styles["Normal"]))
+	story.append(Paragraph(escape(text4),styles["Heading2"]))
+	story.append(Paragraph(escape(text5),styles["Normal"]))
+	story.append(Paragraph(escape(text6),styles["Heading2"]))
+	story.append(Paragraph(escape(text7),styles["Normal"]))
+	story.append(Paragraph(escape(text8),styles["Heading2"]))
+	story.append(Paragraph(escape(text9),styles["Normal"]))
+	story.append(Paragraph(escape(texta),styles["Heading2"]))
+	story.append(Paragraph(escape(textb),styles["Normal"]))
+	story.append(Paragraph(escape(textc),styles["Heading2"]))
+	story.append(Paragraph(escape(textd),styles["Normal"]))
+	story.append(Paragraph(escape(texte),styles["Heading2"]))
+	story.append(Paragraph(escape(textf),styles["Normal"]))
+	story.append(Paragraph(escape(textg),styles["Heading2"]))
+	story.append(Paragraph(escape(texth),styles["Normal"]))
+	story.append(Spacer(1,2*inch))
+	doc.build(story)
+	data = open(tmpfilename,"rb").read()
+	os.unlink(tmpfilename)
+	response.headers['Content-Type']='application/pdf'
+	return data
+def search():
+	return dict(grid=SQLFORM.smartgrid(auth.profile()))
+def myprofile():
+	return dict(form=auth.profile())
+def index():
+    """
+    example action using the internationalization operator T and flash
+    rendered by views/default/index.html or views/generic.html
+
+    if you need a simple wiki simple replace the two lines below with:
+    return auth.wiki()
+    """
+    response.flash = T("Welcome to web2py!")
+    return dict(message=T('Hello World'))
+
+
+@auth.requires_login()
+def messagecalling():
+	form=SQLFORM.factory(
+			db.Field('frome','string',default=auth.user.email,writable=False),
+			db.Field('toe','string'),
+			db.Field('subject','string'),
+			db.Field('sollu','text'),
+			db.Field('files','upload')
+			)
+	if form.accepts(request.vars,session):
+		data=db(db.auth_user.id>0).select(db.auth_user.email)
+		count=0
+		for i in data:
+			if (i.email==form.vars.toe) :
+				count=1
+
+		if count==1:
+			db.messages.insert(frome=form.vars.frome,
+					toe=form.vars.toe,
+					subject=form.vars.subject,
+					sollu=form.vars.sollu,
+					files=form.vars.files)
+						
+			redirect(URL(r=request , f='index'))
+		else:
+			return dict(form=form)
+	return dict(form=form)
+
+@auth.requires_login()
+def seeingm():
+	messages=db(db.messages.id>0).select()
+	data=[]
+	for i in messages:
+		if(i.toe==auth.user.email):
+			data.append(i)
+	return dict(data=data)
+
+def user():
+    """
+    exposes:
+    http://..../[app]/default/user/login
+    http://..../[app]/default/user/logout
+    http://..../[app]/default/user/register
+    http://..../[app]/default/user/profile
+    http://..../[app]/default/user/retrieve_password?
+    http://..../[app]/default/user/change_password
+    use @auth.requires_login()
+        @auth.requires_membership('group name')
+        @auth.requires_permission('read','table name',record_id)
+    to decorate functions that need access control
+    """
+    return dict(form=auth())
+
+@auth.requires_login()
+def enternotice():
+	form=SQLFORM.factory(
+			db.Field('sollura','text')
+			)
+	if form.accepts(request.vars,session):
+		db.notice.insert(companyname=auth.user.first_name,
+				sollura=form.vars.sollura
+				)
+	return dict(form=form)
+def seeing():
+	data=db(db.notice.id>0).select()
+	return dict(data=data)
+def download():
+    """
+    allows downloading of uploaded files
+    http://..../[app]/default/download/[filename]
+    """
+    return response.download(request, db)
+
+
+def call():
+    """
+    exposes services. for example:
+    http://..../[app]/default/call/jsonrpc
+    decorate with @services.jsonrpc the functions to expose
+    supports xml, json, xmlrpc, jsonrpc, amfrpc, rss, csv
+    """
+    return service()
+
+
+@auth.requires_signature()
+def data():
+    """
+    http://..../[app]/default/data/tables
+    http://..../[app]/default/data/create/[table]
+    http://..../[app]/default/data/read/[table]/[id]
+    http://..../[app]/default/data/update/[table]/[id]
+    http://..../[app]/default/data/delete/[table]/[id]
+    http://..../[app]/default/data/select/[table]
+    http://..../[app]/default/data/search/[table]
+    but URLs must be signed, i.e. linked with
+      A('table',_href=URL('data/tables',user_signature=True))
+    or with the signed load operator
+      LOAD('default','data.load',args='tables',ajax=True,user_signature=True)
+    """
+    return dict(form=crud())

@@ -1,0 +1,43 @@
+{{ extend 'layout.html' }}
+{{dat=db(db.auth_user.id==auth.user.id).select(db.auth_user.choose)}}
+        <div class="navbar">
+    <div class="navbar-inner">
+        <a class="brand" href="#">{{=auth.user.username}}</a>
+    <ul class="nav">
+        {{if dat[0].choose=='jobfinders':}}
+        <li><a href={{=URL(r=request, f="studentsmainpage")}}>Mainpage</a></li>
+        {{pass}}
+        {{if dat[0].choose=='company' :}}
+        <li><a href={{=URL(r=request, f="companymainpage" )}}>Mainpage</a></li>
+        {{pass}}
+        <li><a href={{=URL(r=request, f="showmessage")}}>Messages</a></li>
+        <li><a href={{=URL(r=request, f="messaging")}}>Send Message</a></li>
+        {{if dat[0].choose=='jobfinders':}}
+        {{ if len(data1)>0 :}}
+        <li class="active"><a href={{=URL(r=request, f="updatingstudentprofile1")}}>Update Profile</a></li>
+        {{pass}}
+        {{pass}}
+        {{if dat[0].choose=='company':}}
+        <li><a href={{=URL(r=request, f="updatingcompanyprofile")}}>Update Profile</a></li>
+        <li><a href={{=URL(r=request, f="searching")}}>Advanced Search</a></li>
+        <li class="dropdown">
+             <a href="#" data-toggle="dropdown">Notice<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                          <li><a href={{=URL(r=request, f="notice")}}>New Notice</a></li>
+                          <li><a href={{=URL(r=request, f="dnotice",args=auth.user.username)}}>Delete a Notice</a></li>
+                        </ul>
+                      </li>
+        <!--<li><a href={{=URL(r=request, f="justforfun")}}>Advanced Search 2</a></li>-->
+        {{pass}}
+    </ul>
+    </div>
+    </div>
+
+
+<h1>
+	<u>ENTER HIGH SCHOOL DETAILS</u>
+	<br />
+</h1>
+<br />
+<br />
+{{=form}}

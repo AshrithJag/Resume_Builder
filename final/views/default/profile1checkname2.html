@@ -1,0 +1,18 @@
+{{ extend 'layout.html' }}
+{{ if len(d1)!=0:}}
+<h1>
+	Search Results
+</h1>
+{{pass}}
+{{name='names'}}
+{{ for i in d1:}}
+{{ a=i.first_name + '_'+ i.last_name }}
+{{=LI(A(a, _href=URL(r=request, f="companyprofileview", args=(i.stid,name,d3['main']))))}}
+<br />
+{{pass}}
+{{ for i in d2:}}
+{{ a=i.first_name + ' '+ i.last_name }}
+{{=LI(A(a, _href=URL(r=request, f="companyprofileview", args=(i.stid,name,d3['main']))))}}
+<br />
+{{pass}}
+{{=LI(A('back', _href=URL(r=request, f="searching")))}}

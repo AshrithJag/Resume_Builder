@@ -1,0 +1,189 @@
+ {{ extend 'layout.html' }}
+ <h1 style='text-align:center'>
+	 GENERAL INFO
+ </h1>
+ {{ for j in data1 :}}
+ <center>
+	 {{ if j.profilepic :  }}
+	 <img width="500px" src="{{=URL(r=request, f='download', args=j.profilepic)}}" />
+	 {{pass}}
+ </center>
+{{pass}}
+
+ <table border=5 width='100%' >
+	 {{ for i in data1 : }}
+	 <tr>
+		 <td>
+			<h2>
+			First Name : 
+			</h2>
+		</td>
+		<td>
+
+			<h3>
+			{{=i.first_name}}
+			</h3>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<h2>
+			Last Name : 
+			</h2>
+		</td>
+		<td>
+			
+			<h3>
+				{{=i.last_name}}
+			</h3>
+		</td>
+	</tr>
+	<tr>
+		<td>
+
+			<h2>
+				Father Name : 
+			</h2>
+		</td>
+		<td>
+			
+			<h3>
+				{{=i.father_name}}
+			</h3>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<h2>
+				Address : 
+			</h2>
+		</td>
+		<td>
+			
+			<pre><h4>{{=i.chirunama}}</h4></pre>
+		</td>
+
+	</tr>
+	<tr>
+		<td>
+
+
+			<h2>
+			Phone No : 
+			</h2>
+		</td>
+		<td>
+			<h3>
+			{{=i.phoneno}}
+			</h3>
+		</td>
+	</tr>
+	{{pass}}
+</table>
+<br />
+<center>
+<h1>
+	High School Performence
+</h1>
+</center>
+<table border='5' width='100%'>
+	{{ for j in data2 : }}
+	<tr >
+		<td >
+			<h2>
+				School Name
+			</h2>
+		</td>
+		<td>
+			<h3>
+				{{=j.schoolname}}
+			</h3>
+		</td>
+
+	</tr>
+	<tr>
+		<td>
+			<h2>
+				School Address
+			</h2>
+		</td>
+		<td>
+			<pre><h5>{{=j.address}}</h5></pre>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<h2>
+				Pass Out Year
+			</h2>
+		</td>
+		<td>
+			<h3>
+				{{=j.passoutyear}}
+			</h3>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<h2>
+				Precentage
+			</h2>
+		</td>
+		<td>
+			<h3>
+				{{=j.percentage}}
+			</h3>
+		</td>
+	</tr>
+{{pass}}
+</table>
+<center>
+	<h1>
+		OTHER INFORMATION
+	</h1>
+</center>	
+<table border=5 width='100%'>
+	{{for i in data3 : }}
+	<tr>
+		<td>
+			<h2>
+				Intrested Fields
+			</h2>
+		</td>
+		<td>
+			<pre><h5>{{=i.istam}}</h5></pre>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<h2>
+				Projects
+			</h2>
+		</td>
+		<td>
+			<pre><h5>{{=i.projects}}</h5></pre>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<h2>
+				Workexperience
+			</h2>
+		</td>
+		<td>
+			<h3>
+				{{=i.pani}}
+			</h3>
+		</td>
+	</tr>
+{{pass}}
+</table>
+{{=LI(A('back', _href=URL(r=request, f="companymainpage")))}}
+
+
+
+
+
+
+
+
